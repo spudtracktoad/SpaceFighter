@@ -80,24 +80,6 @@ public class SpaceshipController : MonoBehaviour
         mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, cameraPosition.position, Time.deltaTime * cameraSmooth);
         mainCamera.transform.rotation = Quaternion.Lerp(mainCamera.transform.rotation, cameraPosition.rotation, Time.deltaTime * cameraSmooth);
 
-        //Rotation
-        float rotationZTmp = 0;
-        if (Input.GetKey(KeyCode.A))
-        {
-            rotationY += -1;
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            rotationY += 1;
-        }
-        if (Input.GetKey(KeyCode.W))
-        {
-            rotationX += -1;
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            rotationX += 1;
-        }
         mouseXSmooth = Mathf.Lerp(mouseXSmooth, Input.GetAxis("Mouse X") * rotationSpeed, Time.deltaTime * cameraSmooth);
         mouseYSmooth = Mathf.Lerp(mouseYSmooth, Input.GetAxis("Mouse Y") * rotationSpeed, Time.deltaTime * cameraSmooth);
         Quaternion localRotation = Quaternion.Euler(-mouseYSmooth, mouseXSmooth, -3 * rotationSpeed);
@@ -105,9 +87,31 @@ public class SpaceshipController : MonoBehaviour
         transform.rotation = lookRotation;
         rotationZ -= mouseXSmooth;
         rotationZ = Mathf.Clamp(rotationZ, -45, 45);
+
+        //Rotation
+        float rotationZTmp = 0;
+        //if (Input.GetKey(KeyCode.A))
+        //{
+        //    rotationY += -1;
+        //}
+        //else if (Input.GetKey(KeyCode.D))
+        //{
+        //    rotationY += 1;
+        //}
+        //if (Input.GetKey(KeyCode.W))
+        //{
+        //    rotationX += -1;
+        //}
+        //else if (Input.GetKey(KeyCode.S))
+        //{
+        //    rotationX += 1;
+        //}
+
+        rotationY += Input.GetAxis("Mouse Y") * rotationSpeed;
+
         //rotationY = Mathf.Clamp(rotationY, -45, 45);
         //rotationX = Mathf.Clamp(rotationX, -45, 45);
-        spaceshipRoot.transform.localEulerAngles = new Vector3(mouseXSmooth, mouseYSmooth, rotationZ);
+        spaceshipRoot.transform.localEulerAngles = new Vector3(rotationX, rotationY, rotationZ);
         rotationZ = Mathf.Lerp(rotationZ, defaultShipRotation.z, Time.deltaTime * cameraSmooth);
 
         //Update crosshair texture
