@@ -107,7 +107,7 @@ public class SpaceshipController : MonoBehaviour
         rotationZ = Mathf.Clamp(rotationZ, -45, 45);
         //rotationY = Mathf.Clamp(rotationY, -45, 45);
         //rotationX = Mathf.Clamp(rotationX, -45, 45);
-        spaceshipRoot.transform.localEulerAngles = new Vector3(rotationX, rotationY, rotationZ);
+        spaceshipRoot.transform.localEulerAngles = new Vector3(mouseXSmooth, mouseYSmooth, rotationZ);
         rotationZ = Mathf.Lerp(rotationZ, defaultShipRotation.z, Time.deltaTime * cameraSmooth);
 
         //Update crosshair texture
