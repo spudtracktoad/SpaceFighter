@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -130,6 +130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 409857410715960986, guid: 13e6a3fa85963fb4291fe83e771b22e8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1317934926428686362, guid: 13e6a3fa85963fb4291fe83e771b22e8, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -189,6 +193,10 @@ PrefabInstance:
     - target: {fileID: 4057978187303714558, guid: 13e6a3fa85963fb4291fe83e771b22e8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446117320558736271, guid: 13e6a3fa85963fb4291fe83e771b22e8, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4455486682730607543, guid: 13e6a3fa85963fb4291fe83e771b22e8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -324,24 +332,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 746319422}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d0485960d87d6b44b1e06825631f320, type: 3}
+  m_Script: {fileID: 11500000, guid: d38d28d66c525c14ba36b56313d50f59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalSpeed: 1
-  accelerationSpeed: 45
-  cameraPosition: {fileID: 973415268}
-  mainCamera: {fileID: 708889578}
-  spaceshipRoot: {fileID: 746319424}
-  rotationSpeed: 4
-  cameraSmooth: 4
-  crosshairTexture: {fileID: 0}
-  spaceCraft: {fileID: 708889578}
-  overheadCamera: {fileID: 1523660816}
---- !u!4 &746319424 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4057978187303714558, guid: 13e6a3fa85963fb4291fe83e771b22e8, type: 3}
-  m_PrefabInstance: {fileID: 100266143}
-  m_PrefabAsset: {fileID: 0}
+  linearForce: {x: 50, y: 50, z: 200}
+  angularForce: {x: 75, y: 75, z: 35}
+  reverseMultiplier: 1
+  forceMultiplier: 50
 --- !u!54 &746319425
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -350,14 +347,48 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 746319422}
   serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_Mass: 100
+  m_Drag: 2
+  m_AngularDrag: 5
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &746319426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746319422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95cd1d7e14bd52b4387b0a07a5d38f0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayer: 0
+--- !u!114 &746319427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746319422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a4d04809e3d21641b0c91bda7133983, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useMouseInput: 1
+  addRoll: 1
+  pitch: 0
+  yaw: 0
+  roll: 0
+  strafe: 0
+  throttle: 0
+  cockpitCamera: {fileID: 708889578}
+  trailCamera: {fileID: 1523660816}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,7 +406,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &963194226
 AudioListener:
   m_ObjectHideFlags: 0
@@ -441,11 +472,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 8, y: 0, z: 0}
---- !u!4 &973415268 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4455486682730607543, guid: 13e6a3fa85963fb4291fe83e771b22e8, type: 3}
-  m_PrefabInstance: {fileID: 100266143}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1208701412
 PrefabInstance:
   m_ObjectHideFlags: 0
