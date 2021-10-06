@@ -4,5 +4,17 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Content/Scenes/MainMenu.unity
+    guid: 5717899ecdf602645ad31252e9bea983
+  - enabled: 1
+    path: Assets/Content/Scenes/FlightTest.unity
+    guid: 6348a5b2a1f1e3946838c024ca698ed2
+  - enabled: 1
+    path: Assets/Content/Scenes/EndGame.unity
+    guid: ef9c736ed2f5c594697f7391725672c2
+  - enabled: 1
+    path: Assets/Content/Scenes/WinGame.unity
+    guid: c30c7cafa96c48f4e834dd49cca42139
   m_configObjects: {}
