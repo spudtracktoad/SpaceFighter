@@ -89,7 +89,7 @@ namespace SpaceFighter
 
         [Header("Firing")]
 
-        public Bullet BulletPrefab = null;
+        public Bullet[] BulletPrefabs = null;
 
         [SerializeField] private ParticleSystem MuzzleFlashPrefab = null;
         [Tooltip("Fire bullets from FixedUpdate. If using a physics based project, this should usually be set to true.")]
@@ -107,8 +107,21 @@ namespace SpaceFighter
 
         public int MaxAmmo = 300;
 
-        [Tooltip("Sound effect for the gun firing")]
-        public AudioClip audio;
+        [Tooltip("Ammo type is the type of Bullet loaded into the gun and will be fired next.")]
+        public int AmmoType = 0;
+
+        [Tooltip("Alpha keycodes select the different types of ammo that can be loaded into the gun.")]
+        private KeyCode[] keyCodes = {
+         KeyCode.Alpha1,
+         KeyCode.Alpha2,
+         KeyCode.Alpha3,
+         KeyCode.Alpha4,
+         KeyCode.Alpha5,
+         KeyCode.Alpha6,
+         KeyCode.Alpha7,
+         KeyCode.Alpha8,
+         KeyCode.Alpha9,
+        };
 
         private Dictionary<Transform, ParticleSystem> firePointToMuzzleFlash = new Dictionary<Transform, ParticleSystem>();
         private List<GunBarrel> barrelVisuals = new List<GunBarrel>();
@@ -190,6 +203,7 @@ namespace SpaceFighter
                 foreach (var barrel in barrelVisuals)
                     barrel.ResetBarrelOverTime(Time.deltaTime);
             }
+            SelectAmmo();
         }
 
         private void FixedUpdate()
@@ -205,6 +219,7 @@ namespace SpaceFighter
                 foreach (var barrel in barrelVisuals)
                     barrel.ResetBarrelOverTime(Time.deltaTime);
             }
+            SelectAmmo();
         }
 
         /// <summary>
@@ -243,11 +258,11 @@ namespace SpaceFighter
             var simVelocity = firePoint.forward * MuzzleVelocity + InheritedVelocity;
 
             var simTime = 0f;
-            var maxSimTime = BulletPrefab.TimeToLive;
+            var maxSimTime = BulletPrefabs[AmmoType].TimeToLive;
             while (simTime < maxSimTime && !willHitSomething)
             {
-                (simPosition, simVelocity) = BulletPrefab.CalculateBulletMotion(simPosition, simVelocity, timeStep);
-                (willHitSomething, hitInfo) = BulletPrefab.RunHitDetection(simPosition, simVelocity, timeStep);
+                (simPosition, simVelocity) = BulletPrefabs[AmmoType].CalculateBulletMotion(simPosition, simVelocity, timeStep);
+                (willHitSomething, hitInfo) = BulletPrefabs[AmmoType].RunHitDetection(simPosition, simVelocity, timeStep);
 
                 if (willHitSomething)
                     willHitSomething = true;
@@ -309,7 +324,8 @@ namespace SpaceFighter
                 var firePoint = FirePoints[firePointIndex % FirePoints.Count];
                 FireBulletFromFirePoint(firePoint, inheritedVelocity);
                 firePointIndex += 1;
-                GetComponent<AudioSource>().PlayOneShot(audio);
+                AudioSource audio = GetComponent<AudioSource>();
+                audio.PlayOneShot(audio.clip);
 
                 AmmoCount -= 1;
             }
@@ -320,7 +336,8 @@ namespace SpaceFighter
                 {
                     FireBulletFromFirePoint(firePoint, inheritedVelocity);
                     firePointIndex += 1;
-                    GetComponent<AudioSource>().PlayOneShot(audio);
+                    AudioSource audio = GetComponent<AudioSource>();
+                    audio.PlayOneShot(audio.clip);
 
                     AmmoCount -= 1;
                 }
@@ -332,7 +349,7 @@ namespace SpaceFighter
 
         private void FireBulletFromFirePoint(Transform firePoint, Vector3 velocity)
         {
-            var bullet = Instantiate(BulletPrefab, firePoint.transform.position, firePoint.transform.rotation);
+            var bullet = Instantiate(BulletPrefabs[AmmoType], firePoint.transform.position, firePoint.transform.rotation);
 
             if (IgnoreOwnRigidbody && HasRigidbody)
                 bullet.AddIgnoredRigidbody(Rigidbody);
@@ -375,6 +392,42 @@ namespace SpaceFighter
 
             if (firePointToMuzzleFlash.ContainsKey(firePoint))
                 firePointToMuzzleFlash[firePoint].Play();
+        }
+
+        private void SelectAmmo()
+        {
+            int numberPressed = 0;
+            bool keypress = false;
+            for (int i = 0; i < keyCodes.Length; i++)
+            {
+                if (Input.GetKeyDown(keyCodes[i]))
+                {
+                    numberPressed = i;
+                    keypress = true;
+                }
+            }
+            if (keypress)
+            {
+                keypress = false;
+                SelectAmmo(numberPressed);
+            }
+        }
+
+        public void SelectAmmo(int index)
+        {
+            if(index >= BulletPrefabs.Length)
+            {
+                AmmoType = 0;
+            }
+            else
+            {
+                AmmoType = index;
+            }
+        }
+
+        public string getAmmoType()
+        {
+            return BulletPrefabs[AmmoType].name;
         }
     }
 }
