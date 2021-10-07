@@ -31,11 +31,12 @@ public class WinGame : MonoBehaviour
 
     void NextLvlBtnOnClick()
     {
-        SceneManager.LoadScene("FlightTest");
+        LevelController.incrementLevel();
+        SceneManager.LoadScene(LevelController.getCurrentLevel());
     }
 
     void restartBtnOnClick()
     {
-        SceneManager.LoadScene("FlightTest");
+        SceneManager.LoadScene(LevelController.getCurrentLevel());
     }
 }

@@ -28,6 +28,6 @@ public class EndGame : MonoBehaviour
 
     void restartBtnOnClick()
     {
-        SceneManager.LoadScene("FlightTest");
+        SceneManager.LoadScene(LevelController.getCurrentLevel());
     }
 }
